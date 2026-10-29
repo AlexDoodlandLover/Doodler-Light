@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>Blank App</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="css/material.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/fontello.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/nouislider.min.css" rel="stylesheet" />
+    <style>
+        .na {
+            position: relative;
+        }
+
+        .na:before {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            content: '';
+        }
+    </style>
+</head>
+
+<body>
+<div class="body-bg" id="picker">
+    <div class="main-content">
+        <div class="main-img"><img src="images/main-img.png"></div>
+        <div class="logo-text">Doodler! Lite</div>
+        <br><br>
+        <div class="start-btn browse-btn">
+            <a href="javascript:void(0);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect uploadbtn">
+                <i class="demo-icon icon-images-interface-symbol"></i> Browse Image
+            </a>
+            <br><br>
+            <a href="javascript:void(0);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect camerabtn">
+                <i class="fa fa-camera"></i> Capture
+            </a>
+            <br><br>
+            <a href="javascript:void(0);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect upgrade">
+                <i class="fa fa-ban"></i> Remove Ads
+            </a>
+        </div>
+    </div>
+    <div class="copyright">&copy; Gianluca Paparo. All Rights Reserved.</div>
+
+</div>
+<div id="editor" style="display:none;">
+    <div class="thickness-dot"></div>
+    <div id="fontSizeSlider" class="range-slide hidden vertical-slider"></div>
+    <div id="penThicknessSlider" class="thickness-range hidden vertical-slider"></div>
+
+    <!--div class="thickness-range hidden vertical-slider">
+<input class="mdl-slider mdl-js-slider" type="range" min="0" max="40" value="10" tabindex="0" oninput="setPenThickness(this.value)">
+</div-->
+
+    <!--div class="range-slide vertical-slider hidden">
+<input class="mdl-slider mdl-js-slider" type="range" min="5" max="100" value="30" tabindex="0" oninput="setFontSize(this.value)">
+    </div-->
+    <div style="background:grey;">
+        <div class="full-image">
+            <canvas id="c" style="max-width:100%;"></canvas>
+            <div class="cancel-btn">
+                <a href="javascript:void(0)" onclick="cancel()" style="padding:10px;">Cancel</a>
+            </div>
+            <div class="done-text">
+                <a href="javascript:void(0)" style="padding:10px;">Done</a>
+            </div>
+            <ul class="top-toolbar">
+                <li><a class="input-text" href="javascript:void(0);" onclick="newTextMode()"><i class="demo-icon icon-text-icon"></i></a></li>
+                <li><a href="javascript:void(0);" onclick="downloadImage()"><i class="demo-icon icon-download-arrow"></i></a></li>
+                <li><a href="javascript:void(0);" onclick="shareImage()"><i class="demo-icon icon-share"></i></a></li>
+            </ul>
+
+            <!--div class="edit-icons">
+        <ul>
+            <li><a class="magic-stick" href="javascript:void(0);"><i class="demo-icon icon-magic-stick"></i></a></li>
+        </ul>
+    </div-->
+            <div class="cat-click-pop slide-toggle">
+                <div class="down-arrow hidden"><i class="demo-icon icon-down-arrow"></i></div>
+                <div class="mdl-tabs mdl-js-tabs">
+                    <div class="mdl-tabs__tab-bar tab-padding">
+                        <a href="#panel1" class="mdl-tabs__tab elementTab"><span class="icon-clk"><i class="demo-icon icon-eyes-2"></i></span><span class="icon-text">Eyes</span></a>
+                        <a href="#panel2" class="mdl-tabs__tab elementTab"><span class="icon-clk"><i class="demo-icon icon-mouth-2"></i></span><span class="icon-text">Mouths</span></a>
+                        <a href="#panel3" class="mdl-tabs__tab elementTab"><span class="icon-clk"><i class="demo-icon icon-legs"></i></span><span class="icon-text">Body</span></a>
+                        <a href="#panel4" class="mdl-tabs__tab elementTab"><span class="icon-clk"><i class="demo-icon icon-emoji-icon-1"></i></span><span class="icon-text">Emoticons</span></a>
+                        <a href="#panel5" class="mdl-tabs__tab draw-tab"><span class="icon-clk" onclick="drawingMode(true)"><i class="demo-icon icon-pen-1"></i></span><span class="icon-text">Drawing</span></a>
+                    </div>
+
+                    <div class="mdl-tabs__panel" id="panel1" style=" height: calc(100% - 71px); overflow: auto; max-height: 200px;">
+                        <div class="">
+                            <div class="item">
+                                <div class="row-data">
+                                    <ul class="eye-list eyes-list">
+                                    </ul>
+                                    <p class="text-center">Get Access To 2000 More Stickers For $0.99<br><a href="#" class="upgrade">Upgrade Now</a></p>
+                                    <ul class="eye-list eyes-list-na na">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-tabs__panel" id="panel2" style=" height: calc(100% - 71px); overflow: auto; max-height: 200px;">
+                        <div class="">
+                            <div class="item">
+                                <div class="row-data">
+                                    <ul class="eye-list mouths-list">
+                                    </ul>
+                                    <p class="text-center">Get Access To 2000 More Stickers For $0.99<br><a href="#" class="upgrade">Upgrade Now</a></p>
+                                    <ul class="eye-list mouths-list-na na">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-tabs__panel" id="panel3" style=" height: calc(100% - 71px); overflow: auto; max-height: 200px;">
+                        <div class="">
+                            <div class="item">
+                                <div class="row-data">
+                                    <ul class="eye-list">
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/1.svg"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/2.svg"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/3.svg"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/4.svg"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/5.svg"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/6.svg"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="element" src="images/elements/legs/7.svg"></a></li>
+                                    </ul>
+                                    <p class="text-center">Get Access To 2000 More Stickers For $0.99<br><a href="#" class="upgrade">Upgrade Now</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-tabs__panel" id="panel4" style=" height: calc(100% - 71px); overflow: auto; max-height: 200px;">
+                        <div class="">
+                            <div class="item">
+                                <div class="row-data">
+                                    <ul class="emoji-list eye-list">
+                                    </ul>
+                                    <p class="text-center">Get Access To 2000 More Stickers For $0.99<br><a href="#" class="upgrade">Upgrade Now</a></p>
+                                    <ul class="emoji-list-na eye-list na">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-tabs__panel" id="panel5">
+                        <div class="row-data">
+                            <ul class="drawing-list">
+                                <li><span class="vhidden undoBtn" onclick="undoMove()"><i class="fa fa-undo"></i></span></li>
+                                <li><span class="cancel-data" onclick="drawingMode(false)"><i class="demo-icon icon-down-arrow"></i></span></li>
+                                <li><span class="vhidden redoBtn" onclick="redoMove()"><i class="fa fa-repeat"></i></span></li>
+                            </ul>
+                            <!-- Default Slider -->
+
+                            <div class="color-swatch">
+                                <div class="owl-carousel eye-slider owl-theme">
+                                    <div class="item">
+                                        <div class="row-data">
+                                            <ul class="color-list">
+                                                <li onclick="setColor('000000')"><a href="javascript:void(0)"><span class="color-box color-black"></span></a></li>
+                                                <li onclick="setColor('FFFFFF')"><a href="javascript:void(0)"><span class="color-box color-white"></span></a></li>
+                                                <li onclick="setColor('F6402B')"><a href="javascript:void(0)"><span class="color-box color-red"></span></a></li>
+                                                <li onclick="setColor('EB1461')"><a href="javascript:void(0)"><span class="color-box color-pink"></span></a></li>
+                                                <li onclick="setColor('9C1AB2')"><a href="javascript:void(0)"><span class="color-box color-purple"></span></a></li>
+                                                <li onclick="setColor('6733BB')"><a href="javascript:void(0)"><span class="color-box color-deep-purple"></span></a></li>
+                                                <li onclick="setColor('3E4CB7')"><a href="javascript:void(0)"><span class="color-box color-indigo"></span></a></li>
+                                                <li onclick="setColor('1193F5')"><a href="javascript:void(0)"><span class="color-box color-blue"></span></a></li>
+                                                <li onclick="setColor('00A7F6')"><a href="javascript:void(0)"><span class="color-box color-light-blue"></span></a></li>
+                                                <li onclick="setColor('00BBD6')"><a href="javascript:void(0)"><span class="color-box color-cyan"></span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="row-data">
+                                            <ul class="color-list">
+                                                <li onclick="setColor('009788')"><a href="javascript:void(0)"><span class="color-box color-teal"></span></a></li>
+                                                <li onclick="setColor('46AF4A')"><a href="javascript:void(0)"><span class="color-box color-green"></span></a></li>
+                                                <li onclick="setColor('88C440')"><a href="javascript:void(0)"><span class="color-box color-light-green"></span></a></li>
+                                                <li onclick="setColor('CCDD1D')"><a href="javascript:void(0)"><span class="color-box color-lime"></span></a></li>
+                                                <li onclick="setColor('FFC100')"><a href="javascript:void(0)"><span class="color-box color-amber"></span></a></li>
+                                                <li onclick="setColor('FF9801')"><a href="javascript:void(0)"><span class="color-box color-orange"></span></a></li>
+                                                <li onclick="setColor('FF5505')"><a href="javascript:void(0)"><span class="color-box color-deep-orange"></span></a></li>
+                                                <li onclick="setColor('7A5447')"><a href="javascript:void(0)"><span class="color-box color-brown"></span></a></li>
+                                                <li onclick="setColor('9D9D9D')"><a href="javascript:void(0)"><span class="color-box color-grey"></span></a></li>
+                                                <li onclick="setColor('5F7C8C')"><a href="javascript:void(0)"><span class="color-box color-deep-grey"></span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="text-editing">
+                <div class="text-edit-tool">
+
+                    <!-- Default Slider -->
+                    <div class="color-swatch">
+                        <div class="owl-carousel eye-slider owl-theme">
+                            <div class="item">
+                                <div class="row-data">
+                                    <ul class="color-list">
+                                        <li onclick="setFontColor('000000')"><a href="javascript:void(0)"><span class="color-box color-black"></span></a></li>
+                                        <li onclick="setFontColor('FFFFFF')"><a href="javascript:void(0)"><span class="color-box color-white"></span></a></li>
+                                        <li onclick="setFontColor('F6402B')"><a href="javascript:void(0)"><span class="color-box color-red"></span></a></li>
+                                        <li onclick="setFontColor('EB1461')"><a href="javascript:void(0)"><span class="color-box color-pink"></span></a></li>
+                                        <li onclick="setFontColor('9C1AB2')"><a href="javascript:void(0)"><span class="color-box color-purple"></span></a></li>
+                                        <li onclick="setFontColor('6733BB')"><a href="javascript:void(0)"><span class="color-box color-deep-purple"></span></a></li>
+                                        <li onclick="setFontColor('3E4CB7')"><a href="javascript:void(0)"><span class="color-box color-indigo"></span></a></li>
+                                        <li onclick="setFontColor('1193F5')"><a href="javascript:void(0)"><span class="color-box color-blue"></span></a></li>
+                                        <li onclick="setFontColor('00A7F6')"><a href="javascript:void(0)"><span class="color-box color-light-blue"></span></a></li>
+                                        <li onclick="setFontColor('00BBD6')"><a href="javascript:void(0)"><span class="color-box color-cyan"></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="row-data">
+                                    <ul class="color-list">
+                                        <li onclick="setFontColor('009788')"><a href="javascript:void(0)"><span class="color-box color-teal"></span></a></li>
+                                        <li onclick="setFontColor('46AF4A')"><a href="javascript:void(0)"><span class="color-box color-green"></span></a></li>
+                                        <li onclick="setFontColor('88C440')"><a href="javascript:void(0)"><span class="color-box color-light-green"></span></a></li>
+                                        <li onclick="setFontColor('CCDD1D')"><a href="javascript:void(0)"><span class="color-box color-lime"></span></a></li>
+                                        <li onclick="setFontColor('FFC100')"><a href="javascript:void(0)"><span class="color-box color-amber"></span></a></li>
+                                        <li onclick="setFontColor('FF9801')"><a href="javascript:void(0)"><span class="color-box color-orange"></span></a></li>
+                                        <li onclick="setFontColor('FF5505')"><a href="javascript:void(0)"><span class="color-box color-deep-orange"></span></a></li>
+                                        <li onclick="setFontColor('7A5447')"><a href="javascript:void(0)"><span class="color-box color-brown"></span></a></li>
+                                        <li onclick="setFontColor('9D9D9D')"><a href="javascript:void(0)"><span class="color-box color-grey"></span></a></li>
+                                        <li onclick="setFontColor('5F7C8C')"><a href="javascript:void(0)"><span class="color-box color-deep-grey"></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/material.min.js"></script>
+<script src="js/fabric.min.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/custom-functions.js"></script>
+<script src="js/admob.js"></script>
+<script>
+            max_width = $(window).width();;
+            max_height = $(window).height();
+            var id = 1;
+            var moved = false;
+            var textmodeenabled = false;
+            var canvas = this.__canvas = new fabric.Canvas('c'),
+                f = fabric.Image.filters;
+            canvas.selection = false;
+            $('.camerabtn').click(function() {
+                // start image capture
+                navigator.camera.getPicture(onSuccess, onFail, {
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    correctOrientation: true
+                });
+
+            });
+
+            function onSuccess(imageData) {
+                renderImage(imageData);
+            }
+
+            function checkRewardTokens() {
+                if (localStorage.getItem('sd_count') === null) {
+                    localStorage.setItem('sd_count', 1);
+                    allowed = true;
+                } else {
+                    var sd_count = parseInt(localStorage.getItem('sd_count'));
+                    if (sd_count % 2 == 1) {
+                        allowed = false;
+                    } else {
+                        allowed = true;
+                    }
+                    sd_count++;
+                    localStorage.setItem('sd_count', sd_count);
+                }
+            }
+            document.addEventListener("deviceready", function() {
+
+                $('.upgrade').on('click', function(event) {
+                    console.log('upgrade');
+                    event.preventDefault();
+                    url = "market://details?id=com.thirtytwobitsolutions.doodler";
+                    cordova.InAppBrowser.open(url, '_system', 'location=yes');
+                })
+                checkRewardTokens();
+
+
+                AppRate.preferences = {
+                    openStoreInApp: false,
+                    displayAppName: 'Doodler!',
+                    usesUntilPrompt: 2,
+                    promptAgainForEachNewVersion: false,
+                    storeAppURL: {
+                        ios: '1258584193',
+                        android: 'market://details?id=com.thirtytwobitsolutions.doodlerfree'
+                    },
+                    customLocale: {
+                        title: "Would you mind rating %@?",
+                        message: "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
+                        cancelButtonLabel: "No, Thanks",
+                        laterButtonLabel: "Remind Me Later",
+                        rateButtonLabel: "Rate It Now",
+                        yesButtonLabel: "Yes!",
+                        noButtonLabel: "Not really",
+                        appRatePromptTitle: 'Do you like using %@',
+                        feedbackPromptTitle: 'Mind giving us some feedback?',
+                    },
+                    callbacks: {
+                        handleNegativeFeedback: function() {
+                            window.open('mailto:gianluca.paparo@park-studio.ch', '_system');
+                        },
+                        onRateDialogShow: function(callback) {
+                            callback(1) // cause immediate click on 'Rate Now' button
+                        }
+                    }
+                };
+                document.addEventListener("backbutton", onBackKeyDown, false);
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+
+                $(document).ready(function() {
+
+                    emojiHTML = '';
+                    for (i = 1; i < 31; i++) {
+                        emojiHTML += '<li><a href="javascript:void(0)"><img class="element" src="images/elements/emojis/' + i + '.svg"></a></li>';
+                    }
+                    $('.emoji-list').html(emojiHTML);
+                    emojiHTML = '';
+                    for (i = 31; i < 100; i++) {
+                        //emojiHTML += '<li><a href="javascript:void(0)"><img class="element" src="images/elements/emojis/' + i + '.svg"></a></li>';
+                    }
+
+                    $('.emoji-list-na').html(emojiHTML);
+                    eyesiHTML = '';
+                    for (i = 1; i < 31; i++) {
+                        eyesiHTML += '<li><a href="javascript:void(0)"><img class="element" src="images/elements/eyes/' + i + '.svg"></a></li>';
+                    }
+
+                    $('.eyes-list').html(eyesiHTML);
+                    eyesiHTML = '';
+                    for (i = 31; i < 190; i++) {
+                        eyesiHTML += '<li><a href="javascript:void(0)"><img class="element" src="images/elements/eyes/' + i + '.svg"></a></li>';
+                    }
+
+                    $('.eyes-list-na').html(eyesiHTML);
+                    mouthsiHTML = '';
+                    for (i = 1; i < 31; i++) {
+                        mouthsiHTML += '<li><a href="javascript:void(0)"><img class="element" src="images/elements/mouth/' + i + '.svg"></a></li>';
+                    }
+
+                    $('.mouths-list').html(mouthsiHTML);
+                    mouthsiHTML = '';
+                    for (i = 31; i < 163; i++) {
+                        mouthsiHTML += '<li><a href="javascript:void(0)"><img class="element" src="images/elements/mouth/' + i + '.svg"></a></li>';
+                    }
+
+                    $('.mouths-list-na').html(mouthsiHTML);
+
+                    $('.element').on('click', function() {
+                        src = $(this).attr('src');
+                        if (src.indexOf('legs') > 0) {
+                            src1 = src.replace('.svg', '_1.svg');
+                            src2 = src.replace('.svg', '_2.svg');
+                            addElement(src1);
+                            addElement(src2);
+                        } else {
+                            addElement(src);
+                        }
+                        hideElements();
+                    })
+                    navigator.splashscreen.hide();
+                })
+
+                if (!AdMob) {
+                    alert('admob plugin not ready');
+                    return;
+                }
+                initAd();
+                // display a banner at startup
+                createSelectedBanner();
+            }, false);
+
+            function onConfirm(buttonIndex) {
+                if (buttonIndex == 1) {
+                    navigator.app.exitApp();
+                }
+            }
+
+            function onBackKeyDown() {
+                navigator.notification.confirm(
+                    'You will lose all your changes.', // message
+                    onConfirm, // callback to invoke with index of button pressed
+                    'Wait!', // title
+                    ['I have saved all I need.', 'No, wait!'] // buttonLabels
+                );
+            }
+
+            function onFail(message) {
+                console.log('Failed because: ' + message);
+            }
+            var captureSuccess = function(mediaFiles) {
+                var i, path, len;
+                for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+                    path = mediaFiles[i].fullPath;
+                    // do something interesting with the file
+                    renderImage(path);
+                }
+            };
+
+            // capture error callback
+            var captureError = function(error) {
+                //navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+                console.log(JSON.stringify(error));
+            };
+            $('.uploadbtn').click(function() {
+
+                navigator.camera.getPicture(onSuccess, onFail, {
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    correctOrientation: true
+                });
+            });
+            img_height = 0;
+            img_width = 0;
+            bg_width = 0;
+            bg_height = 0;
+            watermark = 0;
+
+            function renderImage(uri) {
+                canvas.clear().renderAll();
+
+                $('#picker').hide();
+                $('#editor').show();
+                var image = new Image();
+                image.src = uri;
+
+                image.onload = function() {
+                    max_height = $(window).height() - $('.cat-click-pop').height();
+                    offsetTop = 0;
+                    offsetLeft = 0;
+                    // access image size here
+                    if (this.width > this.height) {
+                        width = max_width;
+                        height = ((this.height) * max_width) / this.width;
+                    } else {
+                        height = max_height;
+                        width = ((this.width) * max_height) / this.height;
+                    }
+                    img_height = this.height;
+                    img_width = this.width;
+                    if (height > max_height) {
+                        width = (width / height) * max_height;
+                        height = max_height;
+                    }
+                    if (width > max_width) {
+                        height = (height / width) * max_width;
+                        width = max_width;
+                    }
+                    offsetTop = (max_height - height) / 2;
+                    offsetLeft = (max_width - width) / 2;
+                    canvas.setWidth(max_width);
+                    canvas.setHeight(max_height);
+                    canvas.calcOffset();
+                    bg_height = height;
+                    bg_width = width;
+
+                    fabric.Image.fromURL(this.src, function(img) {
+                        canvas.backgroundImage = img;
+                        canvas.backgroundImage.width = width;
+                        canvas.backgroundImage.height = height;
+                        canvas.backgroundImage.top = offsetTop;
+                        canvas.backgroundImage.left = offsetLeft;
+                        canvas.renderAll();
+                    });
+
+                    if (watermark == 0) {
+                        console.log('images/watermark.png');
+                        fabric.Image.fromURL('images/watermark.png', function(img) {
+                            watermark = img;
+                            watermark.set({
+                                left: bg_width - 150,
+                                top: offsetTop + bg_height - 42.5,
+                                width: 150,
+                                height: 42.5,
+                                selectable: false,
+                                evented: false,
+                            });
+                            canvas.add(watermark).renderAll();
+                        });
+                    }
+
+                };
+            }
+
+            function cancel() {
+                watermark = 0;
+                $('#editor').hide();
+                $('#picker').show();
+            }
+
+            function addElement(src) {
+
+                fabric.Image.fromURL(src, function(img) {
+                    img.scaleToWidth(100);
+
+                    img.set({
+                        'hasControls': false,
+                        'hasBorders': false,
+                        originX: "center",
+                        originY: "center",
+                        left: max_width / 2,
+                        top: max_height / 2,
+                        id: id++,
+                        isText: false
+                    });
+                    canvas.add(img).renderAll();
+                    canvas.setActiveObject(img);
+                });
+            }
+            var bin;
+            var selectedObject;
+            var addedBin = false;
+            fabric.Image.fromURL('images/dustbin.svg', function(img) {
+                img.set({
+                    left: (max_width / 2) - 25,
+                    top: max_height - 100,
+                    selectable: false,
+                    height: 50,
+                    width: 50
+                });
+                bin = img;
+            });
+            canvas.on('mouse:up', function(evn) {
+                //console.log(JSON.stringify(evn));
+                //console.log(selectedObject !== undefined , selectedObject.isText ,!moved , evn.target);
+                if (selectedObject !== undefined && selectedObject.isText && !moved && evn.target && evn.target.type == 'i-text') {
+
+                    $('.textfield').val(selectedObject.text);
+                    showTextMode();
+                } else if (textmodeenabled) {
+                    hideTextMode();
+                }
+                canvas.remove(bin);
+                addedBin = false;
+                if (evn.target !== null) {
+
+                    var pointer = canvas.getPointer(evn.e);
+                    var x = pointer.x;
+                    var y = pointer.y;
+                    if (x > bin.left && x < (bin.left + bin.width) &&
+                        y > bin.top && y < (bin.top + bin.height)) {
+                        canvas.remove(selectedObject);
+                        bin.set({
+                            height: 50,
+                            width: 50
+                        });
+                        canvas.renderAll();
+                    }
+                }
+                moved = false;
+            });
+            canvas.on('object:rotating', function(evn) {
+                //console.log('rotating');
+                hideTextMode();
+                moved = true;
+            });
+            canvas.on('object:scaling', function(evn) {
+                //console.log('scaling');
+                hideTextMode();
+                moved = true;
+            });
+            canvas.on('mouse:move', function(evn) {
+                //console.log('move');
+            });
+            var inDeleteZone = false;
+            canvas.on('object:moving', function(evn) {
+                //console.log('moving');
+                hideTextMode();
+                moved = true;
+                if (!addedBin) {
+                    canvas.add(bin);
+                    addedBin = true;
+                }
+                var pointer = canvas.getPointer(evn.e);
+                var x = pointer.x;
+                var y = pointer.y;
+                if (x > bin.left && x < (bin.left + bin.width) &&
+                    y > bin.top && y < (bin.top + bin.height)) {
+                    if (!inDeleteZone) {
+                        inDeleteZone = true;
+                        bin.set({
+                            height: 80,
+                            width: 80,
+                            left: (max_width / 2) - 40,
+                            top: max_height - 115,
+                        });
+                        navigator.vibrate(50);
+                    }
+                } else {
+                    inDeleteZone = false;
+                    bin.set({
+                        height: 50,
+                        width: 50,
+                        left: (max_width / 2) - 25,
+                        top: max_height - 100,
+                    });
+                }
+                canvas.renderAll();
+            })
+            canvas.on('object:selected', function(evn) {
+                selectedObject = evn.target;
+                //console.log(selectedObject);
+            })
+            //$('.textfield').on('focusout',hideTextMode);
+            //$('.text-save-btn').on('click',hideTextMode);
+            function hideTextMode() {
+                //console.log('hideTextMode');
+                if (selectedObject.type == 'i-text') {
+                    selectedObject.exitEditing();
+                }
+                textmodeenabled = false;
+                $(".text-editing").removeClass('show-input');
+                $(".cat-click-pop .mdl-tabs .mdl-tabs__tab-bar").removeClass('display-none');
+                canvas.backgroundImage.opacity = 1;
+            };
+
+            function showTextMode() {
+                //console.log('showTextMode');
+                if (selectedObject.type == 'i-text') {
+                    canvas.setActiveObject(selectedObject);
+                    selectedObject.enterEditing();
+                }
+                textmodeenabled = true;
+                $(".text-editing").addClass('show-input');
+                $('.cancel-data').trigger('click');
+                hideElements();
+                $(".cat-click-pop .mdl-tabs .mdl-tabs__tab-bar").addClass('display-none');
+            };
+
+            function alertDismissed() {
+                // do something
+            }
+
+            function downloadImage() {
+
+                if (hasVideoAd && !allowed) {
+                    downloadAction = true;
+                    AdMob.showRewardVideoAd();
+                    return;
+                } else {
+                    checkRewardTokens();
+                    var options = {
+                        dimBackground: true
+                    };
+                    SpinnerPlugin.activityStart("Saving...", options);
+                    window.setTimeout(function() {
+                        window.canvas2ImagePlugin.saveImageDataToLibrary(
+                            function(msg) {
+                                SpinnerPlugin.activityStop();
+                                navigator.notification.alert(
+                                    'Successfully saved to gallery.', // message
+                                    function() {
+                                        AppRate.promptForRating(false);
+                                    }, // callback
+                                    'Great!', // title
+                                    'Ok' // buttonName
+                                );
+                            },
+                            function(err) {
+                                //console.log(err);
+                            },
+                            document.getElementById('c')
+                        );
+                    }, 500);
+
+                }
+            }
+            hasVideoAd = false;
+            allowed = false;
+            shareAction = false;
+            downloadAction = false;
+
+            function shareImage() {
+                if (hasVideoAd && !allowed) {
+                    shareAction = true;
+                    AdMob.showRewardVideoAd();
+                    return;
+                } else {
+                    checkRewardTokens();
+                    var options = {
+                        dimBackground: true
+                    };
+                    SpinnerPlugin.activityStart("Processing...", options);
+                    window.setTimeout(function() {
+                        var options = {
+                            subject: 'Check This Out!',
+                            files: [trimCanvas(canvas).toDataURL()],
+                            chooserTitle: 'Pick an app'
+                        }
+                        var onSuccess = function(result) {
+                            SpinnerPlugin.activityStop();
+                            AppRate.promptForRating(false);
+                        }
+                        var onError = function(msg) {
+                            SpinnerPlugin.activityStop();
+                        }
+                        window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+                    }, 500);
+                }
+            }
+
+            function drawingMode(b) {
+                canvas.isDrawingMode = b;
+                if (b) {
+                    $('.thickness-range').removeClass('hidden');
+                } else {
+                    $('.thickness-range').addClass('hidden');
+                }
+            }
+
+            function setColor(color) {
+                canvas.freeDrawingBrush.color = '#' + color;
+            }
+
+            function setPenThickness(t) {
+                topOffset = $('.noUi-handle.noUi-active.noUi-handle-lower').offset().top + $('.noUi-handle.noUi-active.noUi-handle-lower').height() / 2 - t / 2 + "px";
+                $('.thickness-dot').height(t);
+                $('.thickness-dot').width(t);
+                $('.thickness-dot').css({
+                    top: topOffset,
+                    left: (150 - t / 2) + "px"
+                });
+                canvas.freeDrawingBrush.width = parseInt(t, 10) || 1;
+            }
+
+            canvas.freeDrawingBrush.width = 5;
+            var paths = new Array();
+            var redopaths = new Array();
+            canvas.on('path:created', function(e) {
+                paths.push(e.path);
+                redopaths = new Array();
+                showUndoRedo();
+            });
+
+            function showUndoRedo() {
+                if (paths.length > 0) {
+                    $('.undoBtn').removeClass('vhidden');
+                } else {
+                    $('.undoBtn').addClass('vhidden');
+                }
+                if (redopaths.length > 0) {
+                    $('.redoBtn').removeClass('vhidden');
+                } else {
+                    $('.redoBtn').addClass('vhidden');
+                }
+            }
+
+            function undoMove() {
+                var path = paths.pop();
+                canvas.remove(path);
+                redopaths.push(path);
+                canvas.renderAll();
+                showUndoRedo();
+            }
+
+            function redoMove() {
+                var path = redopaths.pop();
+                canvas.add(path);
+                paths.push(path);
+                canvas.renderAll();
+                showUndoRedo();
+            }
+            var iText2;
+
+            function newTextMode() {
+                $('.textfield').val('');
+                iText2 = new fabric.IText('', {
+                    left: max_width / 2,
+                    top: max_height - 200,
+                    fontFamily: 'Helvetica',
+                    fill: '#fff',
+                    lineHeight: 1.1,
+                    'hasControls': false,
+                    'hasBorders': false,
+                    id: id++,
+                    originX: 'center',
+                    originY: 'center',
+                    isText: true,
+                    padding: 30
+                });
+                canvas.add(iText2);
+                canvas.setActiveObject(iText2);
+                iText2.setFontSize(30);
+                iText2.enterEditing();
+                showTextMode();
+
+            }
+
+            function setText(text) {
+                //console.log(text);
+                iText2.setText(text);
+                canvas.renderAll();
+            }
+
+            function setFontSize(size) {
+                iText2.setFontSize(size);
+                canvas.renderAll();
+            }
+
+            function setFontColor(color) {
+                iText2.setFill('#' + color);
+                iText2.hiddenTextarea.focus();
+                canvas.renderAll();
+            }
+
+            var fontSizeSlider = document.getElementById('fontSizeSlider');
+
+            noUiSlider.create(fontSizeSlider, {
+                start: 30,
+                behaviour: 'tap',
+                connect: [false, true],
+                orientation: "vertical",
+                height: '300px',
+                range: {
+                    'min': 5,
+                    'max': 100
+                }
+            });
+            fontSizeSlider.noUiSlider.on('slide', function() {
+                setFontSize(fontSizeSlider.noUiSlider.get());
+            });
+
+
+
+            var penThicknessSlider = document.getElementById('penThicknessSlider');
+
+            noUiSlider.create(penThicknessSlider, {
+                start: 26,
+                behaviour: 'tap',
+                connect: [false, true],
+                orientation: "vertical",
+                height: '300px',
+                range: {
+                    'min': 1,
+                    'max': 30
+                }
+            });
+            penThicknessSlider.noUiSlider.on('slide', function() {
+                setPenThickness(31 - penThicknessSlider.noUiSlider.get());
+            });
+
+            penThicknessSlider.noUiSlider.on('start', function() {
+                $('.thickness-dot').fadeIn();
+            });
+
+            penThicknessSlider.noUiSlider.on('end', function() {
+                $('.thickness-dot').fadeOut();
+            });
+
+
+            // place our admob ad unit id here
+            var admobid = {};
+            if (/(android)/i.test(navigator.userAgent)) {
+                admobid = { // for Android
+                    banner: 'ca-app-pub-4593245908939092/4854506907',
+                    rewardvideo: 'ca-app-pub-4593245908939092/8776428288',
+                };
+            } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
+                admobid = { // for iOS
+                    banner: 'ca-app-pub-4593245908939092/3174593727',
+                    rewardvideo: 'ca-app-pub-4593245908939092/8562651772',
+                };
+            }
+        </script>
+
+
+</body>
+
+</html>
